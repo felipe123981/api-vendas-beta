@@ -5,6 +5,7 @@ import AppError from '@shared/errors/AppError';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import authConfig from '@config/auth';
+import { UserTokensRepository } from '../typeorm/repositories/UserTokensRepository';
 
 interface IRequest {
   email: string;
@@ -18,6 +19,7 @@ interface IResponse {
 class CreateSessionsService {
   public async execute({ email, password }: IRequest): Promise<IResponse> {
     const userRepository = getCustomRepository(UsersRepository);
+    const userTokensRepository = getCustomRepository(UserTokensRepository);
     const user = await userRepository.findByEmail(email);
 
     if (!user) {
@@ -35,9 +37,10 @@ class CreateSessionsService {
       expiresIn: authConfig.jwt.expiresIn,
     });
 
+    await userTokensRepository.generate(user.id);
+
     return { user, token };
   }
 }
 
 export default CreateSessionsService;
-
