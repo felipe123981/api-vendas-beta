@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 Usage:
 =======
 /home/api-vendas$ yarn
