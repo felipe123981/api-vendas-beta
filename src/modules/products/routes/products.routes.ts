@@ -1,9 +1,16 @@
 import { Router } from 'express';
 import ProductsController from '../controllers/ProductsController';
 import { celebrate, Joi, Segments } from 'celebrate';
+import isAuthenticated from '@shared/http/middlewares/isAuthenticated';
+import PhotosController from '../controllers/PhotosController';
+import multer from 'multer';
+import uploadConfig from '@config/upload';
 
 const productsRouter = Router();
 const productsController = new ProductsController();
+const photosController = new PhotosController();
+
+const upload = multer(uploadConfig);
 
 productsRouter.get('/', productsController.index);
 
@@ -52,6 +59,18 @@ productsRouter.delete(
     },
   }),
   productsController.delete,
+);
+
+productsRouter.post(
+  '/photos/:id',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+  }),
+  isAuthenticated,
+  upload.array('photos'),
+  photosController.upload,
 );
 
 export default productsRouter;
