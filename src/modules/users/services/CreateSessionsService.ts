@@ -40,3 +40,4 @@ class CreateSessionsService {
 }
 
 export default CreateSessionsService;
+
