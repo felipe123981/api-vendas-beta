@@ -6,4 +6,4 @@ Usage:
 /home/api-vendas$ docker run --name redis-client -v redisinsight:/db -p 8001:8001 -d -t redislabs:redisinsight:latest
 /home/api-vendas$ yarn dev
 
->>>>>>> c908da3f31f0c52c856b69a33c8dd11fa38ffc8c
+
