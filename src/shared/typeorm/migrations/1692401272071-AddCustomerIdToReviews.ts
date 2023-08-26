@@ -10,7 +10,7 @@ export class AddCustomerIdToReviews1692401256518 implements MigrationInterface {
     await queryRunner.addColumn(
       'reviews',
       new TableColumn({
-        name: 'customer_id',
+        name: 'sender_id',
         type: 'uuid',
         isNullable: true,
       }),
@@ -20,7 +20,7 @@ export class AddCustomerIdToReviews1692401256518 implements MigrationInterface {
       'reviews',
       new TableForeignKey({
         name: 'CustomerReviews',
-        columnNames: ['customer_id'],
+        columnNames: ['sender_id'],
         referencedTableName: 'customers',
         referencedColumnNames: ['id'],
         onDelete: 'SET NULL',
@@ -30,6 +30,6 @@ export class AddCustomerIdToReviews1692401256518 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropForeignKey('reviews', 'CustomerReviews');
-    await queryRunner.dropColumn('reviews', 'customer_id');
+    await queryRunner.dropColumn('reviews', 'sender_id');
   }
 }
