@@ -5,27 +5,27 @@ import Review from '../typeorm/entities/Review';
 import { CustomersRepository } from '@modules/customers/typeorm/repositories/CustomersRepository';
 
 interface IRequest {
-  customer_id: string;
+  sender_id: string;
 }
 
 class ShowCustomerReviewsService {
-  public async execute({ customer_id }: IRequest): Promise<Review[]> {
+  public async execute({ sender_id }: IRequest): Promise<Review[]> {
     const reviewRepository = getCustomRepository(ReviewsRepository);
     const customerRepository = getCustomRepository(CustomersRepository);
 
-    const customer = await customerRepository.findOne(customer_id);
+    const customer = await customerRepository.findOne(sender_id);
 
     if(!customer) {
       throw new AppError("Customer not found.")
     }
 
-    const review = await reviewRepository.findAllByCustomerId(customer_id);
+    const reviews = await reviewRepository.findAllByCustomerId(sender_id);
 
-    if(!review) {
+    if(!reviews) {
       throw new AppError("This customer haven't posted any reviews yet.");
     }
 
-    return review;
+    return reviews;
   }
 }
 

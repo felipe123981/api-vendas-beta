@@ -45,7 +45,7 @@ export class ReviewsRepository extends Repository<Review> {
 
     return existReviews;
   }
-  public async findAllByProductId(product_id: string): Promise<Review[]> {
+  public async findAllByProductId(product_id: string): Promise<Review[] | undefined> {
 
     const reviewsProduct = this.find({
       where: {
@@ -55,11 +55,11 @@ export class ReviewsRepository extends Repository<Review> {
 
     return reviewsProduct;
   }
-  public async findAllByCustomerId(customer_id: string): Promise<Review[] | undefined> {
+  public async findAllByCustomerId(sender_id: string): Promise<Review[] | undefined> {
 
     const reviewsCustomer = this.find({
       where: {
-        customer_id,
+        sender_id,
       }
     })
 

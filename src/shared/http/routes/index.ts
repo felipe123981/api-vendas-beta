@@ -1,6 +1,7 @@
 import customersRouter from '@modules/customers/routes/customers.routes';
 import ordersRouter from '@modules/orders/routes/orders.routes';
 import productsRouter from '@modules/products/routes/products.routes';
+import reviewsRouter from '@modules/reviews/routes/reviews.routes';
 import passwordRouter from '@modules/users/routes/password.routes';
 import profileRouter from '@modules/users/routes/profile.routes';
 import sessionsRouter from '@modules/users/routes/sessions.routes';
@@ -22,6 +23,8 @@ routes.use('/profile', profileRouter);
 routes.use('/customers', customersRouter);
 
 routes.use('/orders', ordersRouter);
+
+routes.use('/reviews', reviewsRouter);
 
 routes.get('/', (request, response) => {
   return response.json({ message: 'Hello dev!' });

@@ -11,6 +11,8 @@ interface IRequest {
   sender_id: string;
   rating: number;
   content: string;
+  upvotes: number;
+  downvotes: number;
   replied_customers: Array<string>;
 }
 
@@ -20,13 +22,15 @@ class CreateReviewService {
     sender_id,
     rating,
     content,
+    upvotes = 0,
+    downvotes = 0,
     replied_customers,
   }: IRequest): Promise<Review> {
     const reviewRepository = getCustomRepository(ReviewsRepository);
     const customerRepository = getCustomRepository(CustomersRepository);
     const productRepository = getCustomRepository(ProductsRepository);
 
-    const customer = await customerRepository.findById(sender_id);
+    const customer = await customerRepository.findOne(sender_id);
 
     if (!customer) {
       throw new AppError('Customer not found.');
@@ -43,12 +47,11 @@ class CreateReviewService {
       sender_id,
       rating,
       content,
+      upvotes,
+      downvotes,
       replied_customers,
     });
 
-    await reviewRepository.save(review);
-
-    await RedisCache.invalidate('api-vendas-REVIEW_LIST');
 
     await reviewRepository.save(review);
 

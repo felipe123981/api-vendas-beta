@@ -21,10 +21,10 @@ class Review {
   @Column()
   content: string;
 
-  @Column('int')
+  @Column('int', { nullable: true })
   upvotes: number;
 
-  @Column('int')
+  @Column('int', { nullable: true })
   downvotes: number;
 
   @Column('varchar', { array: true })
@@ -32,11 +32,13 @@ class Review {
 
   @ManyToOne(() => Product)
   @JoinColumn({ name: 'product_id' })
-  product: Product;
+  @Column('string')
+  product_id: Product;
 
   @ManyToOne(() => Customer)
-  @JoinColumn({ name: 'customer_id' })
-  customer: Customer;
+  @JoinColumn({ name: 'sender_id' })
+  @Column('string')
+  sender_id: Customer;
 
   @CreateDateColumn()
   created_at: Date;

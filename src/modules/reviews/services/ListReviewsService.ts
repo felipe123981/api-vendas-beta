@@ -3,7 +3,7 @@ import RedisCache from '@shared/cache/RedisCache';
 import Review from '../typeorm/entities/Review';
 import { ReviewsRepository } from '../typeorm/repositories/ReviewsRepository';
 
-class ListProductService {
+class ListReviewsService {
   public async execute(): Promise<Review[]> {
     const reviewRepository = getCustomRepository(ReviewsRepository);
 
@@ -23,4 +23,4 @@ class ListProductService {
   }
 }
 
-export default ListProductService;
+export default ListReviewsService;
