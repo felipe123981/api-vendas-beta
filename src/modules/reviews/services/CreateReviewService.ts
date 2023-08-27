@@ -5,10 +5,11 @@ import AppError from '@shared/errors/AppError';
 import { CustomersRepository } from '@modules/customers/typeorm/repositories/CustomersRepository';
 import { ProductsRepository } from '@modules/products/typeorm/repositores/ProductsRepository';
 import RedisCache from '@shared/cache/RedisCache';
+import { UsersRepository } from '@modules/users/typeorm/repositories/UsersRepository';
 
 interface IRequest {
   product_id: string;
-  sender_id: string;
+  user_id: string;
   rating: number;
   content: string;
   upvotes: number;
@@ -19,7 +20,7 @@ interface IRequest {
 class CreateReviewService {
   public async execute({
     product_id,
-    sender_id,
+    user_id,
     rating,
     content,
     upvotes = 0,
@@ -29,12 +30,22 @@ class CreateReviewService {
     const reviewRepository = getCustomRepository(ReviewsRepository);
     const customerRepository = getCustomRepository(CustomersRepository);
     const productRepository = getCustomRepository(ProductsRepository);
+    const userRepository = getCustomRepository(UsersRepository)
 
-    const customer = await customerRepository.findOne(sender_id);
+    const user = await userRepository.findOne(user_id);
 
-    if (!customer) {
+    if (!user) {
       throw new AppError('Customer not found.');
     }
+
+    const customer = await customerRepository.findByEmail(user.email);
+
+    if(!customer) {
+      throw new AppError('Customer not found.')
+    }
+
+    const sender_id = customer.id;
+
 
     const product = await productRepository.findById(product_id);
 

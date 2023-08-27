@@ -12,6 +12,11 @@ export default class SessionsController {
       password,
     });
 
+    const { method, url, ip } = request;
+    console.log(
+      `[+] Session Required: \n  =>at: [${new Date().toISOString()}]\n  =>method: ${method}\n  =>url: ${url}\n  =>email: ${email}\n  =>from ${ip}`,
+    );
+
     return response.json(instanceToInstance(user));
   }
 }

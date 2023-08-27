@@ -25,13 +25,12 @@ productsRouter.get(
 );
 
 productsRouter.post(
-  '/',
+  '/', isAuthenticated,
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
       price: Joi.number().precision(2).required(),
       quantity: Joi.number().required(),
-      customer_id: Joi.string().uuid().required(),
     },
   }),
   productsController.create,

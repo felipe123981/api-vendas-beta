@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import ProductsController from '@modules/products/controllers/ProductsController';
 import { celebrate, Joi, Segments } from 'celebrate';
 import isAuthenticated from '@shared/http/middlewares/isAuthenticated';
 import ReviewsController from '../controllers/ReviewsController';
@@ -35,12 +34,19 @@ reviewsRouter.get(
 
 reviewsRouter.post(
   '/',
-
+  isAuthenticated,
+  (req, res, next) => {
+    // Use regular expression to replace all occurrences of {{ ... }} with {{ ... }}
+    const content = req.body.content.replace(/{{\s*(.*?)\s*}}/g, '{{{{ $1 }}}}');
+    req.body.content = content;
+    next();
+  },
   reviewsController.create,
 );
 
 reviewsRouter.put(
   '/:id',
+  isAuthenticated,
   celebrate({
     [Segments.BODY]: {
       content: Joi.string().required(),
@@ -55,6 +61,7 @@ reviewsRouter.put(
 
 reviewsRouter.delete(
   '/:id',
+  isAuthenticated,
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),

@@ -5,7 +5,6 @@ import ShowProductReviewsService from '../services/ShowProductReviewsService';
 import CreateReviewService from '../services/CreateReviewService';
 import UpdateReviewService from '../services/UpdateReviewService';
 import DeleteReviewService from '../services/DeleteReviewService';
-import QueryString from 'qs';
 
 export default class ReviewsController {
   public async index(request: Request, response: Response): Promise<Response> {
@@ -42,29 +41,29 @@ export default class ReviewsController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
+    const  user_id  = request.user.id;
     const {
       rating,
       content,
       upvotes,
       downvotes,
-      sender_id,
       product_id,
       replied_customers,
     } = request.body;
 
-    const createProduct = new CreateReviewService();
+    const createReview = new CreateReviewService();
 
-    const product = await createProduct.execute({
+    const review = await createReview.execute({
       rating,
       content,
       upvotes,
       downvotes,
-      sender_id,
+      user_id,
       product_id,
       replied_customers,
     });
 
-    return response.json(product);
+    return response.json(review);
   }
   public async update(request: Request, response: Response): Promise<Response> {
     const { rating, content } = request.body;

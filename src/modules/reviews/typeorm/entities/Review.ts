@@ -21,10 +21,10 @@ class Review {
   @Column()
   content: string;
 
-  @Column('int', { nullable: true })
+  @Column()
   upvotes: number;
 
-  @Column('int', { nullable: true })
+  @Column()
   downvotes: number;
 
   @Column('varchar', { array: true })
