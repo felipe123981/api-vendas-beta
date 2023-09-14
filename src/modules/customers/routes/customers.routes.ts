@@ -5,7 +5,7 @@ import CustomersController from '../controllers/CustomersController';
 
 const customersRouter = Router();
 
-customersRouter.use(isAuthenticated);
+//customersRouter.use(isAuthenticated);
 const customersController = new CustomersController();
 
 customersRouter.get('/', customersController.index);
@@ -20,6 +20,7 @@ customersRouter.get(
 );
 customersRouter.post(
   '/',
+  isAuthenticated,
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
@@ -30,6 +31,7 @@ customersRouter.post(
 );
 customersRouter.put(
   '/:id',
+  isAuthenticated,
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
@@ -43,6 +45,7 @@ customersRouter.put(
 );
 customersRouter.delete(
   '/:id',
+  isAuthenticated,
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),

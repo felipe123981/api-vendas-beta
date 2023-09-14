@@ -34,6 +34,14 @@ reviewsRouter.get(
 
 reviewsRouter.post(
   '/',
+  celebrate({
+    [Segments.BODY]: {
+      product_id: Joi.string().uuid().required(),
+      rating: Joi.number(),
+      content: Joi.string(),
+    }
+  })
+  ,
   isAuthenticated,
   (req, res, next) => {
     // Use regular expression to replace all occurrences of {{ ... }} with {{ ... }}
