@@ -11,6 +11,14 @@ export class UsersRepository extends Repository<User> {
     });
     return user;
   }
+  public async findByName(name: string): Promise<User | undefined> {
+    const user = this.findOne({
+      where: {
+        name,
+      },
+    });
+    return user;
+  }
   public async findByEmail(email: string): Promise<User | undefined> {
     const user = this.findOne({
       where: {

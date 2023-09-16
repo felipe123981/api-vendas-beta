@@ -37,16 +37,15 @@ reviewsRouter.post(
   celebrate({
     [Segments.BODY]: {
       product_id: Joi.string().uuid().required(),
-      rating: Joi.number(),
-      content: Joi.string(),
-    }
-  })
-  ,
+      rating: Joi.number(), // atleast one is required!
+      content: Joi.string(), // atleast one is required!
+    },
+  }),
   isAuthenticated,
   (req, res, next) => {
     // Use regular expression to replace all occurrences of {{ ... }} with {{ ... }}
-    const content = req.body.content.replace(/{{\s*(.*?)\s*}}/g, '{{{{ $1 }}}}');
-    req.body.content = content;
+    const content = req.body.content.split('@');
+    console.log(content);
     next();
   },
   reviewsController.create,
