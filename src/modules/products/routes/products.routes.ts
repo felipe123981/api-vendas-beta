@@ -38,6 +38,7 @@ productsRouter.post(
 
 productsRouter.put(
   '/:id',
+  isAuthenticated,
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
@@ -53,6 +54,7 @@ productsRouter.put(
 
 productsRouter.delete(
   '/:id',
+  isAuthenticated,
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
