@@ -29,4 +29,12 @@ export class ProductsRepository extends Repository<Product> {
 
     return existProducts;
   }
+  public async findAllByCustomerId(
+    customer_id: string,
+  ): Promise<Product[] | undefined> {
+    const existProducts = this.find({
+      where: { customer_id },
+    });
+    return existProducts;
+  }
 }

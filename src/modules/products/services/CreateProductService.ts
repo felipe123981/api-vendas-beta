@@ -57,7 +57,7 @@ class CreateProductService {
 
     await productRepository.save(product);
 
-    console.log(user_id);
+    console.log(`User ${user.name} created the product ${product.name}.`)
 
     return product;
   }

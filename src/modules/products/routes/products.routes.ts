@@ -25,7 +25,14 @@ productsRouter.get(
 );
 
 productsRouter.post(
-  '/', isAuthenticated,
+  '/myProducts',
+  isAuthenticated,
+  productsController.showById,
+);
+
+productsRouter.post(
+  '/',
+  isAuthenticated,
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
