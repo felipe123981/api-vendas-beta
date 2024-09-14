@@ -4,6 +4,7 @@ import ShowProductService from '../services/ShowProductService';
 import CreateProductService from '../services/CreateProductService';
 import UpdateProductService from '../services/UpdateProductService';
 import DeleteProductService from '../services/DeleteProductService';
+import ListProductsByCurrentSessionService from '../services/ListProductsByCurrentSessionService';
 import ListProductsByCustomerService from '../services/ListProductsByCustomerService';
 
 export default class ProductsController {
@@ -25,16 +26,28 @@ export default class ProductsController {
     return response.json(product);
   }
 
-  public async showById(
+  public async showBySession(
     request: Request,
     response: Response,
   ): Promise<Response> {
-    const  user_id  = request.user.id;
-    console.log(user_id)
+    const user_id = request.user.id;
 
-    const ListProducts = new ListProductsByCustomerService();
+    const listProducts = new ListProductsByCurrentSessionService();
 
-    const products = await ListProducts.execute({ user_id });
+    const products = await listProducts.execute({ user_id });
+
+    return response.json(products);
+  }
+
+  public async showByCustomerId(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { id } = request.params;
+
+    const listProducts = new ListProductsByCustomerService();
+
+    const products = await listProducts.execute({ id });
 
     return response.json(products);
   }

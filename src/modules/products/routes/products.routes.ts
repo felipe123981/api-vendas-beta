@@ -24,10 +24,20 @@ productsRouter.get(
   productsController.show,
 );
 
+productsRouter.get(
+  '/customerId/:id',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+  }),
+  productsController.showByCustomerId,
+);
+
 productsRouter.post(
   '/myProducts',
   isAuthenticated,
-  productsController.showById,
+  productsController.showBySession,
 );
 
 productsRouter.post(

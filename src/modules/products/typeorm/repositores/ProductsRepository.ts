@@ -31,7 +31,7 @@ export class ProductsRepository extends Repository<Product> {
   }
   public async findAllByCustomerId(
     customer_id: string,
-  ): Promise<Product[] | undefined> {
+  ): Promise<Product[]> {
     const existProducts = this.find({
       where: { customer_id },
     });
