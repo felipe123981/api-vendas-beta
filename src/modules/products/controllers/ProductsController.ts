@@ -71,6 +71,7 @@ export default class ProductsController {
   public async update(request: Request, response: Response): Promise<Response> {
     const { name, price, quantity, photos } = request.body;
     const { id } = request.params;
+    const user_id = request.user.id;
 
     const updateProduct = new UpdateProductService();
 
@@ -80,16 +81,18 @@ export default class ProductsController {
       price,
       quantity,
       photos,
+      user_id,
     });
 
     return response.json(product);
   }
   public async delete(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
+    const user_id = request.user.id;
 
     const deleteProduct = new DeleteProductService();
 
-    await deleteProduct.execute({ id });
+    await deleteProduct.execute({ id, user_id });
 
     return response.json([]);
   }

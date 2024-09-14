@@ -4,6 +4,8 @@ import fs from 'fs';
 import { getCustomRepository } from 'typeorm';
 import Product from '../typeorm/entities/Product';
 import { ProductsRepository } from '../typeorm/repositores/ProductsRepository';
+import { UsersRepository } from '@modules/users/typeorm/repositories/UsersRepository';
+import { CustomersRepository } from '@modules/customers/typeorm/repositories/CustomersRepository';
 import uploadConfig from '@config/upload';
 
 interface IRequest {
