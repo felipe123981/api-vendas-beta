@@ -11,16 +11,38 @@ import uploadConfig from '@config/upload';
 interface IRequest {
   id: string;
   photoFilename: string;
+  user_id: string;
 }
 
 class AddProductPhotoService {
-  public async execute({ id, photoFilename }: IRequest): Promise<Product> {
+  public async execute({
+    id,
+    photoFilename,
+    user_id,
+  }: IRequest): Promise<Product> {
     const productsRepository = getCustomRepository(ProductsRepository);
+    const userRepository = getCustomRepository(UsersRepository);
+    const customerRepository = getCustomRepository(CustomersRepository);
+
+    const user = await userRepository.findOne(user_id);
+
+    if(!user) {
+      throw new AppError("User not found.");
+    }
 
     const product = await productsRepository.findById(id);
 
     if (!product) {
       throw new AppError('Product not found.');
+    }
+
+    const customer = await customerRepository.findOne(product.customer_id);
+
+    if(!customer) {
+      throw new AppError("Customer not found.")
+    }
+    if (customer.email != user.email) {
+      throw new AppError('Operation not permited.', 403);
     }
 
     /**

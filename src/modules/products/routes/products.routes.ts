@@ -82,12 +82,12 @@ productsRouter.delete(
 
 productsRouter.post(
   '/photos/:id',
+  isAuthenticated,
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
     },
   }),
-  isAuthenticated,
   upload.array('photos'),
   photosController.upload,
 );

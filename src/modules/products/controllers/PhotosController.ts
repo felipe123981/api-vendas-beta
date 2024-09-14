@@ -21,12 +21,14 @@ export default class PhotosController {
   }
   public async add(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
+    const user_id = request.user.id;
 
     const addPhoto = new AddProductPhotoService();
 
     const product = await addPhoto.execute({
       id,
       photoFilename: request.file?.filename as string,
+      user_id,
     });
 
     return response.json(product);
@@ -34,12 +36,14 @@ export default class PhotosController {
 
   public async remove(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
+    const user_id = request.user.id;
 
     const deletePhoto = new DeleteProductPhotoService();
 
     await deletePhoto.execute({
       id,
       photoFilename: request.file?.filename as string,
+      user_id,
     });
 
     return response.json([]);
