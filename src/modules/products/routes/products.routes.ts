@@ -37,6 +37,9 @@ productsRouter.get(
 productsRouter.post(
   '/myProducts',
   isAuthenticated,
+  celebrate({
+    [Segments.BODY]: Joi.object({}).unknown(false) // Garante que o corpo deve estar vazio e não pode conter propriedades adicionais
+  }),
   productsController.showBySession,
 );
 
